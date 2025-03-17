@@ -1,0 +1,49 @@
+import random
+
+class Father:
+    def __init__(self):
+        self.blood_types = input("Masukkan golongan darah ayah (contoh: A, B, AB, O): ").upper()
+
+class Mother:
+    def __init__(self):
+        self.blood_types = input("Masukkan golongan darah ibu (contoh: A, B, AB, O): ").upper()
+
+class Child(Father, Mother):
+    def __init__(self):
+        Father.__init__(self)
+        Mother.__init__(self)
+        self.blood_type = self.determine_blood_type()
+
+    def determine_blood_type(self):
+        possible_alleles = {
+            "A": ["A", "O"],
+            "B": ["B", "O"],
+            "AB": ["A", "B"],
+            "O": ["O", "O"]
+        }
+        
+        # Pilih satu alel dari masing-masing orang tua secara acak
+        father_allele = random.choice(possible_alleles[self.blood_types])
+        mother_allele = random.choice(possible_alleles[self.blood_types])
+        
+        # Tentukan golongan darah berdasarkan kombinasi alel
+        blood_combinations = {
+            ("A", "A"): "A",
+            ("A", "O"): "A",
+            ("O", "A"): "A",
+            ("B", "B"): "B",
+            ("B", "O"): "B",
+            ("O", "B"): "B",
+            ("A", "B"): "AB",
+            ("B", "A"): "AB",
+            ("O", "O"): "O"
+        }
+        
+        return blood_combinations.get((father_allele, mother_allele), "Unknown")
+
+    def __str__(self):
+        return f"Golongan darah anak: {self.blood_type}"
+
+
+child = Child()
+print(child)
